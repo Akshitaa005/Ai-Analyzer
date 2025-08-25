@@ -1,0 +1,16 @@
+/* Custom font and viewport styling */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Hero section with a beautiful gradient */
+.hero-background {
+    background: linear-gradient(to bottom right, #4c51bf, #667eea, #764ba2);
+}
+
+/* Main content section to overlap the hero background */
+.main-content-section {
+    margin-top: -80px;
+    position: relative;
+    z-index: 10;
+}
