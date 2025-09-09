@@ -5,24 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModalBtn = document.getElementById('close-modal-btn');
     const loadingSpinner = document.getElementById('loading-spinner');
 
-    // Tab-related elements
+    // Tab-related elements (only text analyzer now)
     const textTabBtn = document.getElementById('text-tab-btn');
-    const imageTabBtn = document.getElementById('image-tab-btn');
     const textSection = document.getElementById('text-section');
-    const imageSection = document.getElementById('image-section');
     const outputContainer = document.getElementById('output-container');
     const responseOutput = document.getElementById('response-output');
-    
+
     // Text Analyzer Elements
     const textInput = document.getElementById('text-input');
     const textActionSelect = document.getElementById('text-action-select');
     const textAnalyzeBtn = document.getElementById('text-analyze-btn');
-
-    // Image Generator Elements
-    const imageInput = document.getElementById('image-input');
-    const imageGenerateBtn = document.getElementById('image-generate-btn');
-    const imageOutputContainer = document.getElementById('image-output-container');
-    const generatedImage = document.getElementById('generated-image');
 
     // Gemini API call function for text
     async function callGeminiTextAPI(prompt) {
@@ -57,53 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Gemini API call function for image generation
-    async function callGeminiImageAPI(prompt) {
-        // Use imagen-3.0-generate-002 for image generation.
-        const apiKey = "AAIzaSyAw8YCwAg3dxmC3lupscPGaHdFQVd2Gd7U";
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
-
-        const payload = { 
-            instances: { prompt: prompt }, 
-            parameters: { "sampleCount": 1} 
-        };
-        
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        
-        if (!response.ok) {
-            throw new Error(`API call failed with status: ${response.status}`);
-        }
-        
-        const result = await response.json();
-        
-        if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
-            return `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
-        } else {
-            throw new Error('No image returned from the API.');
-        }
-    }
 
 
-    // Tab Switching Logic
+
+    // Tab Button (only one tab now, but keep for consistency)
     textTabBtn.addEventListener('click', () => {
         textSection.classList.remove('hidden');
-        imageSection.classList.add('hidden');
-        textTabBtn.classList.add('border-indigo-500');
-        imageTabBtn.classList.remove('border-indigo-500');
         outputContainer.classList.add('hidden');
-        imageOutputContainer.classList.add('hidden');
-    });
-    imageTabBtn.addEventListener('click', () => {
-        imageSection.classList.remove('hidden');
-        textSection.classList.add('hidden');
-        imageTabBtn.classList.add('border-indigo-500');
-        textTabBtn.classList.remove('border-indigo-500');
-        outputContainer.classList.add('hidden');
-        imageOutputContainer.classList.add('hidden');
     });
 
     // Handle Info Modal
@@ -113,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     closeModalBtn.addEventListener('click', () => {
         infoModal.classList.add('hidden');
     });
+
 
     // Text Analysis Logic
     textAnalyzeBtn.addEventListener('click', async () => {
